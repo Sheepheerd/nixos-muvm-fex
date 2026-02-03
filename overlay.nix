@@ -14,7 +14,7 @@ let
       # Keep these flags. If the build fails saying "unknown option",
       # try changing "asahi-experimental" to just "asahi".
       mesonFlags = old.mesonFlags ++ [
-        (final.lib.mesonOption "drm-renderers" "asahi-experimental")
+        (final.lib.mesonOption "drm-renderers" "asahi")
       ];
     });
     mesa = final.callPackage ./mesa.nix { inherit (prev) mesa; };
