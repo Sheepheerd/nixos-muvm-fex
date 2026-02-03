@@ -27,11 +27,6 @@
       pkgs = nixpkgs.legacyPackages.${system};
       overlay = import ./overlay.nix;
       pkgs' = pkgs.extend overlay;
-      pkgsX86 = import nixpkgs {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
-
     in
     {
       overlays.default = overlay;
@@ -42,7 +37,7 @@
           fex
           fex-x86_64-rootfs
           ;
-        mesa-x86_64-linux = pkgsX86.mesa;
+        mesa-x86_64-linux = pkgs'.pkgsCross.gnu64.mesa;
       };
     };
 }
