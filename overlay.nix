@@ -8,7 +8,7 @@ let
         owner = "asahi";
         repo = "virglrenderer";
         rev = "main"; # Target the latest branch tip
-        hash = final.lib.fakeHash; # 1. Set this to fakeHash first
+        hash = "sha256-6o/A+rvbFVFrH6vKnXQzTAINwkn+OTIdo7dXSUFeCqY=";
       };
 
       # Keep these flags. If the build fails saying "unknown option",
