@@ -1,10 +1,10 @@
 let
-  pkgsX86 = import inputs.nixpkgs {
-    system = "x86_64-linux";
-    config.allowUnfree = true;
-  };
   # This overlay assumes all previous required overlays have been applied
   overlay = final: prev: {
+    pkgsX86 = import inputs.nixpkgs {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+    };
     virglrenderer = prev.virglrenderer.overrideAttrs (old: {
       src = final.fetchurl {
         url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20241205.2/virglrenderer-asahi-20241205.2.tar.bz2";
