@@ -19,6 +19,6 @@ Example NixOS+flakes usage:
   environment.systemPackages = [ pkgs.muvm ];
 
   # Applying the overlay only for muvm
-  environment.systemPackages = [ (pkgs.extend inputs.nixos-mmuvm-fex.overlays.default).muvm ];
+  environment.systemPackages = [ (pkgs.extend inputs.nixos-muvm-fex.overlays.default).muvm ];
 }
 ```
