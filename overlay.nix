@@ -1,12 +1,21 @@
 let
   # This overlay assumes all previous required overlays have been applied
   overlay = final: prev: {
+
     virglrenderer = prev.virglrenderer.overrideAttrs (old: {
-      src = final.fetchurl {
-        url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20241205.2/virglrenderer-asahi-20241205.2.tar.bz2";
-        hash = "sha256-mESFaB//RThS5Uts8dCRExfxT5DQ+QQgTDWBoQppU7U=";
+      src = final.fetchFromGitLab {
+        domain = "gitlab.freedesktop.org";
+        owner = "asahi";
+        repo = "virglrenderer";
+        rev = "main"; # Target the latest branch tip
+        hash = final.lib.fakeHash; # 1. Set this to fakeHash first
       };
-      mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
+
+      # Keep these flags. If the build fails saying "unknown option",
+      # try changing "asahi-experimental" to just "asahi".
+      mesonFlags = old.mesonFlags ++ [
+        (final.lib.mesonOption "drm-renderers" "asahi-experimental")
+      ];
     });
     mesa = final.callPackage ./mesa.nix { inherit (prev) mesa; };
     muvm = final.callPackage ./muvm.nix {
