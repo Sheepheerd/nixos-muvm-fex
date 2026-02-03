@@ -12,7 +12,7 @@ let
       inherit (prev) muvm;
       mesa-x86_64-linux = final.pkgsCross.gnu64.mesa;
     };
-    fex = final.callPackage ./fex.nix { };
+    fex = prev.fex;
     fex-x86_64-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
       mkdir -p rootfs/run/opengl-driver
       cp -R "${final.pkgsCross.gnu64.mesa}"/* rootfs/run/opengl-driver/
