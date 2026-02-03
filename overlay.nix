@@ -26,9 +26,10 @@ let
 
   # Overlay which applies changes from https://github.com/NixOS/nixpkgs/pull/397932
   muvm-overlay = final: prev: {
-    libkrunfw = final.libkrunfw { };
-    libkrun = final.libkrun { };
-    muvm = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/mu/muvm/package.nix" { };
+    libkrunfw = prev.libkrunfw;
+    libkrun = prev.libkrun;
+
+    muvm = prev.muvm;
   };
 
   overlays = [
