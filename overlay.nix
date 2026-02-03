@@ -8,12 +8,14 @@ let
       };
       mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
     });
-    mesa-asahi-edge = final.callPackage ./mesa.nix { inherit (prev) mesa-asahi-edge; };
-    muvm = final.callPackage ./muvm.nix { inherit (prev) muvm; mesa-x86_64-linux = final.pkgsCross.gnu64.mesa-asahi-edge; };
+    muvm = final.callPackage ./muvm.nix {
+      inherit (prev) muvm;
+      mesa-x86_64-linux = final.pkgsCross.gnu64.mesa;
+    };
     fex = final.callPackage ./fex.nix { };
     fex-x86_64-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
       mkdir -p rootfs/run/opengl-driver
-      cp -R "${final.pkgsCross.gnu64.mesa-asahi-edge}"/* rootfs/run/opengl-driver/
+      cp -R "${final.pkgsCross.gnu64.mesa}"/* rootfs/run/opengl-driver/
       mkfs.erofs $out rootfs/
     '';
   };
@@ -24,9 +26,9 @@ let
 
   # Overlay which applies changes from https://github.com/NixOS/nixpkgs/pull/397932
   muvm-overlay = final: prev: {
-    libkrunfw = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrunfw/package.nix" {};
-    libkrun = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrun/package.nix" {};
-    muvm = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/mu/muvm/package.nix" {};
+    libkrunfw = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrunfw/package.nix" { };
+    libkrun = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrun/package.nix" { };
+    muvm = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/mu/muvm/package.nix" { };
   };
 
   overlays = [
@@ -37,4 +39,4 @@ let
 in
 final: # The final argument is shared between all overlays
 prev:
-prev.lib.foldl' (result: overlay: result // overlay final (prev // result)) {} overlays
+prev.lib.foldl' (result: overlay: result // overlay final (prev // result)) { } overlays

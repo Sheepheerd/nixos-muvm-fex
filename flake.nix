@@ -8,7 +8,7 @@
       flake = false;
     };
     nixpkgs-muvm = {
-      url = "github:NixOS/nixpkgs?ref=refs/pull/397932/head";
+      url = "github:NixOS/nixpkgs?ref=nixpkgs-unstable";
       flake = false;
     };
     __flake-compat = {
