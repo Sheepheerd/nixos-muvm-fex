@@ -1,26 +1,10 @@
 {
   lib,
-  stdenv,
   mesa,
   llvm,
   buildPackages,
 }:
-let
-  isCross = stdenv.hostPlatform != stdenv.buildPlatform;
-in
 mesa.overrideAttrs (old: {
-  postInstall = old.postInstall or "" + ''
-    moveToOutput bin/vtn_bindgen2 $cross_tools
-    moveToOutput bin/asahi_clc $cross_tools
-  '';
-
-  LLVM_CONFIG_PATH = lib.optionalDrvAttr isCross "${llvm.dev}/bin/llvm-config-native";
-
-  nativeBuildInputs =
-    old.nativeBuildInputs or [ ]
-    ++ lib.optionals isCross [
-      buildPackages.mesa.cross_tools or null
-    ];
 
   # Make patch application more lenient - skip patches that fail to apply
   # This is needed because some patches (like the rocket driver musl patch)
