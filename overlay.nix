@@ -15,12 +15,12 @@ let
     mesa = final.callPackage ./mesa.nix { inherit (prev) mesa; };
     muvm = final.callPackage ./muvm.nix {
       inherit (prev) muvm;
-      mesa-x86_64-linux = final.pkgsX86.gnu64.mesa;
+      mesa-x86_64-linux = final.pkgsX86.mesa;
     };
     fex = final.callPackage ./fex.nix { };
     fex-x86_64-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
       mkdir -p rootfs/run/opengl-driver
-      cp -R "${final.pkgsX86.gnu64.mesa}"/* rootfs/run/opengl-driver/
+      cp -R "${final.pkgsX86.mesa}"/* rootfs/run/opengl-driver/
       mkfs.erofs $out rootfs/
     '';
   };
